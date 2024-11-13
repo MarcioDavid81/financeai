@@ -1,7 +1,28 @@
-export default function Home() {
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import Navbar from "./_components/navbar";
+
+const Home = async () => {
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/login");
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-     Hello World
-    </div>
+    <>
+      <Navbar />
+      <div className="flex flex-col space-y-6 p-6">
+        <div className="flex w-full items-center justify-between p-6">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <div className="flex items-center gap-3"></div>
+        </div>
+
+        <div className="grid grid-cols-[2fr,1fr] gap-6">
+          <div className="flex flex-col gap-6"></div>
+        </div>
+      </div>
+    </>
   );
-}
+};
+
+export default Home;
